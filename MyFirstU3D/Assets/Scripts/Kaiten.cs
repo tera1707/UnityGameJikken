@@ -31,24 +31,42 @@ public class Kaiten : MonoBehaviour
         // Y方向に一定量移動していれば縦回転
         if (Mathf.Abs(ry) > 0.001f)
         {
+            if (transform.eulerAngles.x < 5f && ry < 0)
+            {
+                ry = 0;
+            }
+            if (transform.eulerAngles.x > 30f && ry > 0)
+            {
+                ry = 0;
+            }
+
             // 回転軸はカメラ自身のX軸
-            transform.RotateAround(player.transform.position, transform.right, -ry);
+            transform.RotateAround(player.transform.position, transform.right, ry);
         }
     }
 
     void OnGUI()
     {
         if (Gamepad.current == null) return;
+
+        GUIStyle largeStyle = new GUIStyle(GUI.skin.label);
+        largeStyle.fontSize = 60; // お好みのサイズに変更可能
+
         // 私のWindows＋私のコントローラーでは
-        GUILayout.Label($"leftStick: {Gamepad.current.leftStick.ReadValue()}");         // 左アナログスティック
-        GUILayout.Label($"rightStick: {Gamepad.current.rightStick.ReadValue()}");       // 右アナログスティック
-        GUILayout.Label($"buttonNorth: {Gamepad.current.buttonNorth.isPressed}");       // Y(□)ボタン
-        GUILayout.Label($"buttonSouth: {Gamepad.current.buttonSouth.isPressed}");       // A(〇)ボタン
-        GUILayout.Label($"buttonEast: {Gamepad.current.buttonEast.isPressed}");         // B(×)ボタン
-        GUILayout.Label($"buttonWest: {Gamepad.current.buttonWest.isPressed}");         // X(△)ボタン
-        GUILayout.Label($"leftShoulder: {Gamepad.current.leftShoulder.ReadValue()}");   // Lボタン
-        GUILayout.Label($"leftTrigger: {Gamepad.current.leftTrigger.ReadValue()}");     // ZLボタン
-        GUILayout.Label($"rightShoulder: {Gamepad.current.rightShoulder.ReadValue()}"); // Rボタン
-        GUILayout.Label($"rightTrigger: {Gamepad.current.rightTrigger.ReadValue()}");   // ZRボタン
+        GUILayout.Label($"leftStick: {Gamepad.current.leftStick.ReadValue()}", largeStyle);         // 左アナログスティック
+        GUILayout.Label($"rightStick: {Gamepad.current.rightStick.ReadValue()}", largeStyle);       // 右アナログスティック
+        GUILayout.Label($"buttonNorth: {Gamepad.current.buttonNorth.isPressed}", largeStyle);       // Y(□)ボタン
+        GUILayout.Label($"buttonSouth: {Gamepad.current.buttonSouth.isPressed}", largeStyle);       // A(〇)ボタン
+        GUILayout.Label($"buttonEast: {Gamepad.current.buttonEast.isPressed}", largeStyle);         // B(×)ボタン
+        GUILayout.Label($"buttonWest: {Gamepad.current.buttonWest.isPressed}", largeStyle);         // X(△)ボタン
+        GUILayout.Label($"leftShoulder: {Gamepad.current.leftShoulder.ReadValue()}", largeStyle);   // Lボタン
+        GUILayout.Label($"leftTrigger: {Gamepad.current.leftTrigger.ReadValue()}", largeStyle);     // ZLボタン
+        GUILayout.Label($"rightShoulder: {Gamepad.current.rightShoulder.ReadValue()}", largeStyle); // Rボタン
+        GUILayout.Label($"rightTrigger: {Gamepad.current.rightTrigger.ReadValue()}", largeStyle);   // ZRボタン
+
+        GUILayout.Label($"x: {transform.eulerAngles.x}", largeStyle);
+        GUILayout.Label($"y: {transform.eulerAngles.y}", largeStyle);
+        GUILayout.Label($"z: {transform.eulerAngles.z}", largeStyle);
+
     }
 }
